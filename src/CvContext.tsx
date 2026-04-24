@@ -3,9 +3,20 @@ import { cvData, type CVData } from './cvData';
 
 export type Lang = 'en' | 'he';
 
-export const CvContext = createContext<{ data: CVData; lang: Lang }>({
+export type TextOverrides = Record<string, string>;
+
+export type CvContextValue = {
+  data: CVData;
+  lang: Lang;
+  editing: boolean;
+  setOverride: (path: string, value: string) => void;
+};
+
+export const CvContext = createContext<CvContextValue>({
   data: cvData,
   lang: 'en',
+  editing: false,
+  setOverride: () => {},
 });
 
 export function useCv() {
@@ -14,4 +25,8 @@ export function useCv() {
 
 export function useLang(): Lang {
   return useContext(CvContext).lang;
+}
+
+export function useEdit() {
+  return useContext(CvContext);
 }

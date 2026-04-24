@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
 import Design1Classic from './designs/Design1Classic';
 import DesignClassicEmerald from './designs/DesignClassicEmerald';
 import DesignClassicBurgundy from './designs/DesignClassicBurgundy';
@@ -8,8 +8,8 @@ import Design3Elegant from './designs/Design3Elegant';
 import Design4Modern from './designs/Design4Modern';
 import Design5Executive from './designs/Design5Executive';
 import Design6Editorial from './designs/Design6Editorial';
-import { CvContext, type Lang } from './CvContext';
-import { cvData } from './cvData';
+import { CvContext, type Lang, type TextOverrides } from './CvContext';
+import { cvData, type CVData } from './cvData';
 import { cvDataHe } from './cvDataHe';
 import {
   LATIN_FONTS,
@@ -121,17 +121,107 @@ const getInitialScale = () => {
   return Math.min(1, Math.max(0.34, (window.innerWidth - chromeWidth) / 794));
 };
 
+const LS_KEYS = {
+  textHe: 'cv-text-overrides-he',
+  textEn: 'cv-text-overrides-en',
+  theme: 'cv-theme',
+};
+
+function loadJson<T>(key: string, fallback: T): T {
+  try {
+    const raw = localStorage.getItem(key);
+    return raw ? (JSON.parse(raw) as T) : fallback;
+  } catch {
+    return fallback;
+  }
+}
+
+function cloneData(data: CVData): CVData {
+  return JSON.parse(JSON.stringify(data)) as CVData;
+}
+
+function setByPath(obj: Record<string, unknown>, path: string, value: string) {
+  const parts = path.split('.');
+  let cur: Record<string, unknown> = obj;
+  for (let i = 0; i < parts.length - 1; i++) {
+    const key = parts[i];
+    const next = cur[key];
+    if (next == null || typeof next !== 'object') return;
+    cur = next as Record<string, unknown>;
+  }
+  cur[parts[parts.length - 1]] = value;
+}
+
+function applyOverrides(data: CVData, overrides: TextOverrides): CVData {
+  if (!overrides || Object.keys(overrides).length === 0) return data;
+  const result = cloneData(data);
+  for (const [path, value] of Object.entries(overrides)) {
+    setByPath(result as unknown as Record<string, unknown>, path, value);
+  }
+  return result;
+}
+
+type ThemeStore = {
+  latinFontIdx: number;
+  hebrewFontIdx: number;
+  colorOverrides: Record<string, ColorMap>;
+};
+
 function App() {
   const [active, setActive] = useState<string>('classic-navy');
   const [menuOpen, setMenuOpen] = useState(false);
   const [scale, setScale] = useState(getInitialScale);
   const [lang, setLang] = useState<Lang>('en');
-  const [latinFontIdx, setLatinFontIdx] = useState(0);
-  const [hebrewFontIdx, setHebrewFontIdx] = useState(0);
-  const [colorOverrides, setColorOverrides] = useState<Record<string, ColorMap>>({});
+
+  const initialTheme = typeof window === 'undefined'
+    ? { latinFontIdx: 0, hebrewFontIdx: 0, colorOverrides: {} }
+    : loadJson<ThemeStore>(LS_KEYS.theme, { latinFontIdx: 0, hebrewFontIdx: 0, colorOverrides: {} });
+  const initialHeOverrides = typeof window === 'undefined' ? {} : loadJson<TextOverrides>(LS_KEYS.textHe, {});
+  const initialEnOverrides = typeof window === 'undefined' ? {} : loadJson<TextOverrides>(LS_KEYS.textEn, {});
+
+  const [latinFontIdx, setLatinFontIdx] = useState(initialTheme.latinFontIdx);
+  const [hebrewFontIdx, setHebrewFontIdx] = useState(initialTheme.hebrewFontIdx);
+  const [colorOverrides, setColorOverrides] = useState<Record<string, ColorMap>>(initialTheme.colorOverrides);
   const [customizerOpen, setCustomizerOpen] = useState(false);
+  const [editing, setEditing] = useState(false);
+  const [textOverrides, setTextOverrides] = useState<Record<Lang, TextOverrides>>({
+    he: initialHeOverrides,
+    en: initialEnOverrides,
+  });
   const stageRef = useRef<HTMLDivElement>(null);
-  const cvValue = { data: lang === 'he' ? cvDataHe : cvData, lang };
+
+  const setOverride = (path: string, value: string) => {
+    setTextOverrides(prev => ({
+      ...prev,
+      [lang]: { ...prev[lang], [path]: value },
+    }));
+  };
+
+  const handleSave = () => {
+    localStorage.setItem(LS_KEYS.textHe, JSON.stringify(textOverrides.he));
+    localStorage.setItem(LS_KEYS.textEn, JSON.stringify(textOverrides.en));
+    localStorage.setItem(LS_KEYS.theme, JSON.stringify({ latinFontIdx, hebrewFontIdx, colorOverrides }));
+    setEditing(false);
+  };
+
+  const handleReset = () => {
+    localStorage.removeItem(LS_KEYS.textHe);
+    localStorage.removeItem(LS_KEYS.textEn);
+    localStorage.removeItem(LS_KEYS.theme);
+    setTextOverrides({ he: {}, en: {} });
+    setLatinFontIdx(0);
+    setHebrewFontIdx(0);
+    setColorOverrides({});
+    setEditing(false);
+  };
+
+  const baseData = lang === 'he' ? cvDataHe : cvData;
+  const mergedData = useMemo(
+    () => applyOverrides(baseData, textOverrides[lang]),
+    [baseData, textOverrides, lang],
+  );
+
+  const cvValue = { data: mergedData, lang, editing, setOverride };
 
   const current = designs.find(d => d.key === active) ?? designs[0];
   const currentIndex = designs.findIndex(d => d.key === current.key);
@@ -178,10 +268,9 @@ ${buildColorOverride(current.key, currentColors)}
   };
 
   const printPdf = () => {
-    const data = lang === 'he' ? cvDataHe : cvData;
     const fileName = lang === 'he'
-      ? `${data.firstName} ${data.lastName} - קורות חיים`
-      : `${data.firstName} ${data.lastName} - CV`;
+      ? `${mergedData.firstName} ${mergedData.lastName} - קורות חיים`
+      : `${mergedData.firstName} ${mergedData.lastName} - CV`;
     const previous = document.title;
     document.title = fileName;
     window.print();
@@ -259,6 +348,21 @@ ${buildColorOverride(current.key, currentColors)}
           <span className="studio-progress" aria-live="polite">
             {String(currentIndex + 1).padStart(2, '0')} / {String(designs.length).padStart(2, '0')}
           </span>
+          <div className="edit-actions" role="group" aria-label="Edit controls">
+            {!editing && (
+              <button className="studio-edit" type="button" onClick={() => setEditing(true)}>
+                {lang === 'he' ? 'עריכה' : 'Edit'}
+              </button>
+            )}
+            {editing && (
+              <button className="studio-save" type="button" onClick={handleSave}>
+                {lang === 'he' ? 'שמירה' : 'Save'}
+              </button>
+            )}
+            <button className="studio-reset" type="button" onClick={handleReset}>
+              {lang === 'he' ? 'איפוס' : 'Reset'}
+            </button>
+          </div>
           <button className="studio-print" type="button" onClick={printPdf}>
             {lang === 'he' ? 'הדפסה / PDF' : 'Print PDF'}
           </button>

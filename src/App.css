@@ -204,6 +204,75 @@
   transform: translateY(-1px);
 }
 
+.edit-actions {
+  display: inline-flex;
+  gap: 6px;
+}
+.studio-edit,
+.studio-save,
+.studio-reset {
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 8.5pt;
+  font-weight: 900;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  padding: 0 14px;
+  min-height: 42px;
+  transition: transform 0.16s ease, box-shadow 0.16s ease, background 0.16s ease;
+}
+.studio-edit {
+  background: color-mix(in srgb, var(--ink) 8%, transparent);
+  color: var(--ink);
+  border: 1px solid color-mix(in srgb, var(--ink) 22%, transparent);
+}
+.studio-edit:hover {
+  background: color-mix(in srgb, var(--ink) 14%, transparent);
+}
+.studio-save {
+  background: #2f7a4a;
+  color: #ffffff;
+}
+.studio-save:hover {
+  background: #266138;
+  box-shadow: 0 10px 22px rgba(47, 122, 74, 0.26);
+  transform: translateY(-1px);
+}
+.studio-reset {
+  background: transparent;
+  color: #9b4d4d;
+  border: 1px solid color-mix(in srgb, #9b4d4d 36%, transparent);
+}
+.studio-reset:hover {
+  background: color-mix(in srgb, #9b4d4d 10%, transparent);
+}
+
+/* Inline editable text indicator */
+.cv-editable {
+  outline: none;
+  background: color-mix(in srgb, #f6d36a 28%, transparent);
+  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.08);
+  border-radius: 2px;
+  cursor: text;
+  transition: background 0.12s ease;
+}
+.cv-editable:hover {
+  background: color-mix(in srgb, #f6d36a 42%, transparent);
+}
+.cv-editable:focus {
+  background: color-mix(in srgb, #f6d36a 58%, transparent);
+  box-shadow: 0 0 0 1.5px rgba(214, 156, 41, 0.65);
+}
+
+@media print {
+  .cv-editable {
+    background: transparent !important;
+    box-shadow: none !important;
+    outline: none !important;
+  }
+}
+
 .studio-menu-button {
   display: none;
   min-height: 42px;

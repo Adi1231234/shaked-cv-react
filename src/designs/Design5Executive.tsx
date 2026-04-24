@@ -1,4 +1,5 @@
 import { useCv, useLang } from '../CvContext';
+import { Editable } from '../Editable';
 import './Design5Executive.css';
 
 export default function Design5Executive() {
@@ -8,35 +9,35 @@ export default function Design5Executive() {
     <div className="d5-page" dir={lang === 'he' ? 'rtl' : 'ltr'}>
       <div className="d5-topbar"></div>
       <header className="d5-header">
-        <h1>{d.firstName} {d.lastName}</h1>
-        <div className="d5-role">{d.role}</div>
+        <h1><Editable path="firstName" /> <Editable path="lastName" /></h1>
+        <div className="d5-role"><Editable path="role" /></div>
         <div className="d5-divider"></div>
         <div className="d5-contact">
-          <div><span className="d5-label">{d.labels.contactLabels.phone}</span>{d.contact.phone}</div>
-          <div><span className="d5-label">{d.labels.contactLabels.email}</span>{d.contact.email}</div>
-          <div><span className="d5-label">{d.labels.contactLabels.location}</span>{d.contact.location}</div>
-          <div><span className="d5-label">{d.labels.contactLabels.status}</span>{d.contact.maritalStatus}</div>
-          <div><span className="d5-label">{d.labels.contactLabels.origin}</span>{d.contact.birthInfo}</div>
+          <div><Editable as="span" className="d5-label" path="labels.contactLabels.phone" /><Editable path="contact.phone" /></div>
+          <div><Editable as="span" className="d5-label" path="labels.contactLabels.email" /><Editable path="contact.email" /></div>
+          <div><Editable as="span" className="d5-label" path="labels.contactLabels.location" /><Editable path="contact.location" /></div>
+          <div><Editable as="span" className="d5-label" path="labels.contactLabels.status" /><Editable path="contact.maritalStatus" /></div>
+          <div><Editable as="span" className="d5-label" path="labels.contactLabels.origin" /><Editable path="contact.birthInfo" /></div>
         </div>
       </header>
 
       <div className="d5-body">
         <section className="d5-section">
-          <h2>{d.labels.profile}</h2>
+          <h2><Editable path="labels.profile" /></h2>
           <div className="d5-content">
-            {d.profile.paragraphs.map((p, i) => <p key={i}>{p}</p>)}
+            {d.profile.paragraphs.map((_, i) => <p key={i}><Editable path={`profile.paragraphs.${i}`} /></p>)}
           </div>
         </section>
 
         <section className="d5-section">
-          <h2>{d.labels.education}</h2>
+          <h2><Editable path="labels.education" /></h2>
           <div className="d5-content">
             {d.education.map((e, i) => (
               <div className="d5-entry" key={i}>
-                <div className="d5-entry-date">{e.date}</div>
+                <div className="d5-entry-date"><Editable path={`education.${i}.date`} /></div>
                 <div className="d5-entry-body">
-                  <div className="d5-entry-title">{e.place}{e.details && <> {e.details}</>}</div>
-                  {e.bullets.length > 0 && <ul>{e.bullets.map(b => <li key={b}>{b}</li>)}</ul>}
+                  <div className="d5-entry-title"><Editable path={`education.${i}.place`} />{' '}<Editable path={`education.${i}.details`} /></div>
+                  {e.bullets.length > 0 && <ul>{e.bullets.map((_, bi) => <li key={bi}><Editable path={`education.${i}.bullets.${bi}`} /></li>)}</ul>}
                 </div>
               </div>
             ))}
@@ -44,21 +45,21 @@ export default function Design5Executive() {
         </section>
 
         <section className="d5-section">
-          <h2>{d.labels.workExperience}</h2>
+          <h2><Editable path="labels.workExperience" /></h2>
           <div className="d5-content">
-            <ul className="d5-plain">{d.workExperience.map(w => <li key={w}>{w}</li>)}</ul>
+            <ul className="d5-plain">{d.workExperience.map((_, i) => <li key={i}><Editable path={`workExperience.${i}`} /></li>)}</ul>
           </div>
         </section>
 
         <section className="d5-section">
-          <h2>{d.labels.militaryService}</h2>
+          <h2><Editable path="labels.militaryService" /></h2>
           <div className="d5-content">
             {d.military.map((j, i) => (
               <div className="d5-entry" key={i}>
-                <div className="d5-entry-date">{j.date}</div>
+                <div className="d5-entry-date"><Editable path={`military.${i}.date`} /></div>
                 <div className="d5-entry-body">
-                  <div className="d5-entry-title">{j.title}</div>
-                  <ul>{j.bullets.map(b => <li key={b}>{b}</li>)}</ul>
+                  <div className="d5-entry-title"><Editable path={`military.${i}.title`} /></div>
+                  <ul>{j.bullets.map((_, bi) => <li key={bi}><Editable path={`military.${i}.bullets.${bi}`} /></li>)}</ul>
                 </div>
               </div>
             ))}
@@ -67,23 +68,23 @@ export default function Design5Executive() {
 
         <div className="d5-bottom-grid">
           <section className="d5-bottom-section">
-            <h2>{d.labels.strengths}</h2>
-            <ul className="d5-plain">{d.strengths.map(s => <li key={s}>{s}</li>)}</ul>
+            <h2><Editable path="labels.strengths" /></h2>
+            <ul className="d5-plain">{d.strengths.map((_, i) => <li key={i}><Editable path={`strengths.${i}`} /></li>)}</ul>
           </section>
           <section className="d5-bottom-section d5-bottom-split">
             <div>
-              <h2>{d.labels.languages}</h2>
-              <ul className="d5-plain">{d.languages.map(l => <li key={l}>{l}</li>)}</ul>
+              <h2><Editable path="labels.languages" /></h2>
+              <ul className="d5-plain">{d.languages.map((_, i) => <li key={i}><Editable path={`languages.${i}`} /></li>)}</ul>
             </div>
             <div>
-              <h2>{d.labels.futurePlans}</h2>
-              <ul className="d5-plain">{d.futurePlants.map(p => <li key={p}>{p}</li>)}</ul>
+              <h2><Editable path="labels.futurePlans" /></h2>
+              <ul className="d5-plain">{d.futurePlants.map((_, i) => <li key={i}><Editable path={`futurePlants.${i}`} /></li>)}</ul>
             </div>
           </section>
 
           <section className="d5-bottom-section">
-            <h2>{d.labels.volunteering}</h2>
-            <ul className="d5-plain">{d.volunteering.map(v => <li key={v}>{v}</li>)}</ul>
+            <h2><Editable path="labels.volunteering" /></h2>
+            <ul className="d5-plain">{d.volunteering.map((_, i) => <li key={i}><Editable path={`volunteering.${i}`} /></li>)}</ul>
           </section>
         </div>
       </div>

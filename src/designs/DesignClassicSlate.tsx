@@ -1,4 +1,5 @@
 import { useCv, useLang } from '../CvContext';
+import { Editable } from '../Editable';
 import './DesignClassicSlate.css';
 
 export default function DesignClassicSlate() {
@@ -9,55 +10,55 @@ export default function DesignClassicSlate() {
     <div className="d1s-page" dir={lang === 'he' ? 'rtl' : 'ltr'}>
       <header className="d1s-header">
         <div className="d1s-name">
-          <span>{d.firstName}</span>
-          <span>{d.lastName}</span>
+          <Editable as="span" path="firstName" />
+          <Editable as="span" path="lastName" />
         </div>
-        <div className="d1s-role">{d.role}</div>
+        <div className="d1s-role"><Editable path="role" /></div>
       </header>
 
       <div className="d1s-contact">
-        <span>{d.contact.phone}</span>
-        <span>{d.contact.email}</span>
-        <span>{d.contact.location}</span>
-        <span>{d.contact.maritalStatus}</span>
-        <span>{d.contact.birthInfo}</span>
+        <span><Editable path="contact.phone" /></span>
+        <span><Editable path="contact.email" /></span>
+        <span><Editable path="contact.location" /></span>
+        <span><Editable path="contact.maritalStatus" /></span>
+        <span><Editable path="contact.birthInfo" /></span>
       </div>
 
       <section className="d1s-profile">
-        <h2>{d.labels.profile}</h2>
+        <h2><Editable path="labels.profile" /></h2>
         <div>
-          {d.profile.paragraphs.map((p, i) => <p key={i}>{p}</p>)}
+          {d.profile.paragraphs.map((_, i) => <p key={i}><Editable path={`profile.paragraphs.${i}`} /></p>)}
         </div>
       </section>
 
       <div className="d1s-grid">
         <main className="d1s-main">
           <section>
-            <h2>{d.labels.education}</h2>
+            <h2><Editable path="labels.education" /></h2>
             {d.education.map((e, i) => (
               <article className="d1s-row" key={i}>
-                <div className="d1s-date">{e.date}</div>
+                <div className="d1s-date"><Editable path={`education.${i}.date`} /></div>
                 <div>
-                  <h3>{e.place}{e.details && <> {e.details}</>}</h3>
-                  {e.bullets.length > 0 && <ul>{e.bullets.map(b => <li key={b}>{b}</li>)}</ul>}
+                  <h3><Editable path={`education.${i}.place`} />{' '}<Editable path={`education.${i}.details`} /></h3>
+                  {e.bullets.length > 0 && <ul>{e.bullets.map((_, bi) => <li key={bi}><Editable path={`education.${i}.bullets.${bi}`} /></li>)}</ul>}
                 </div>
               </article>
             ))}
           </section>
 
           <section>
-            <h2>{d.labels.workExperience}</h2>
-            <ul className="d1s-work-list">{d.workExperience.map(w => <li key={w}>{w}</li>)}</ul>
+            <h2><Editable path="labels.workExperience" /></h2>
+            <ul className="d1s-work-list">{d.workExperience.map((_, i) => <li key={i}><Editable path={`workExperience.${i}`} /></li>)}</ul>
           </section>
 
           <section>
-            <h2>{d.labels.militaryService}</h2>
+            <h2><Editable path="labels.militaryService" /></h2>
             {d.military.map((j, i) => (
               <article className="d1s-row" key={i}>
-                <div className="d1s-date">{j.date}</div>
+                <div className="d1s-date"><Editable path={`military.${i}.date`} /></div>
                 <div>
-                  <h3>{j.title}</h3>
-                  <ul>{j.bullets.map(b => <li key={b}>{b}</li>)}</ul>
+                  <h3><Editable path={`military.${i}.title`} /></h3>
+                  <ul>{j.bullets.map((_, bi) => <li key={bi}><Editable path={`military.${i}.bullets.${bi}`} /></li>)}</ul>
                 </div>
               </article>
             ))}
@@ -66,20 +67,20 @@ export default function DesignClassicSlate() {
 
         <aside className="d1s-side">
           <section>
-            <h2>{d.labels.strengths}</h2>
-            <ul>{d.strengths.map(s => <li key={s}>{s}</li>)}</ul>
+            <h2><Editable path="labels.strengths" /></h2>
+            <ul>{d.strengths.map((_, i) => <li key={i}><Editable path={`strengths.${i}`} /></li>)}</ul>
           </section>
           <section>
-            <h2>{d.labels.languages}</h2>
-            <ul>{d.languages.map(l => <li key={l}>{l}</li>)}</ul>
+            <h2><Editable path="labels.languages" /></h2>
+            <ul>{d.languages.map((_, i) => <li key={i}><Editable path={`languages.${i}`} /></li>)}</ul>
           </section>
           <section>
-            <h2>{d.labels.futurePlans}</h2>
-            <ul>{d.futurePlants.map(p => <li key={p}>{p}</li>)}</ul>
+            <h2><Editable path="labels.futurePlans" /></h2>
+            <ul>{d.futurePlants.map((_, i) => <li key={i}><Editable path={`futurePlants.${i}`} /></li>)}</ul>
           </section>
           <section>
-            <h2>{d.labels.volunteering}</h2>
-            <ul>{d.volunteering.map(v => <li key={v}>{v}</li>)}</ul>
+            <h2><Editable path="labels.volunteering" /></h2>
+            <ul>{d.volunteering.map((_, i) => <li key={i}><Editable path={`volunteering.${i}`} /></li>)}</ul>
           </section>
         </aside>
       </div>

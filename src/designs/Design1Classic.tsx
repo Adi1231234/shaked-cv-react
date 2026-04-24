@@ -1,4 +1,5 @@
 import { useCv, useLang } from '../CvContext';
+import { Editable } from '../Editable';
 import { IconPhone, IconMail, IconPin, IconUser, IconCalendar } from './Icons';
 import './Design1Classic.css';
 
@@ -11,59 +12,61 @@ export default function Design1Classic({ theme = 'navy' }: { theme?: ClassicThem
     <div className={`d1-page d1-theme-${theme}`} dir={lang === 'he' ? 'rtl' : 'ltr'}>
       <aside className="d1-sidebar">
         <div className="d1-name-block">
-          <div className="d1-name">{d.firstName} {d.lastName}</div>
-          <div className="d1-role">{d.role}</div>
+          <div className="d1-name"><Editable path="firstName" /> <Editable path="lastName" /></div>
+          <div className="d1-role"><Editable path="role" /></div>
         </div>
 
         <section>
-          <h2>{d.labels.contact}</h2>
+          <h2><Editable path="labels.contact" /></h2>
           <div className="d1-contact-list">
-            <div className="d1-contact-row"><span className="d1-ico"><IconPhone /></span><span>{d.contact.phone}</span></div>
-            <div className="d1-contact-row"><span className="d1-ico"><IconMail /></span><span>{d.contact.email}</span></div>
-            <div className="d1-contact-row"><span className="d1-ico"><IconPin /></span><span>{d.contact.location}</span></div>
-            <div className="d1-contact-row"><span className="d1-ico"><IconUser /></span><span>{d.contact.maritalStatus}</span></div>
-            <div className="d1-contact-row"><span className="d1-ico"><IconCalendar /></span><span>{d.contact.birthInfo}</span></div>
+            <div className="d1-contact-row"><span className="d1-ico"><IconPhone /></span><Editable path="contact.phone" /></div>
+            <div className="d1-contact-row"><span className="d1-ico"><IconMail /></span><Editable path="contact.email" /></div>
+            <div className="d1-contact-row"><span className="d1-ico"><IconPin /></span><Editable path="contact.location" /></div>
+            <div className="d1-contact-row"><span className="d1-ico"><IconUser /></span><Editable path="contact.maritalStatus" /></div>
+            <div className="d1-contact-row"><span className="d1-ico"><IconCalendar /></span><Editable path="contact.birthInfo" /></div>
           </div>
         </section>
 
         <section>
-          <h2>{d.labels.languages}</h2>
+          <h2><Editable path="labels.languages" /></h2>
           <ul className="d1-sidebar-list d1-lang-list">
-            {d.languages.map(l => <li key={l}>{l}</li>)}
+            {d.languages.map((_, i) => <li key={i}><Editable path={`languages.${i}`} /></li>)}
           </ul>
         </section>
 
         <section>
-          <h2>{d.labels.strengths}</h2>
+          <h2><Editable path="labels.strengths" /></h2>
           <ul className="d1-sidebar-list">
-            {d.strengths.map(s => <li key={s}>{s}</li>)}
+            {d.strengths.map((_, i) => <li key={i}><Editable path={`strengths.${i}`} /></li>)}
           </ul>
         </section>
 
         <section>
-          <h2>{d.labels.futurePlans}</h2>
+          <h2><Editable path="labels.futurePlans" /></h2>
           <ul className="d1-sidebar-list">
-            {d.futurePlants.map(p => <li key={p}>{p}</li>)}
+            {d.futurePlants.map((_, i) => <li key={i}><Editable path={`futurePlants.${i}`} /></li>)}
           </ul>
         </section>
       </aside>
 
       <main className="d1-main">
         <section className="d1-profile">
-          <h2><span className="d1-bullet"></span>{d.labels.profile}</h2>
-          {d.profile.paragraphs.map((p, i) => <p key={i}>{p}</p>)}
+          <h2><span className="d1-bullet"></span><Editable path="labels.profile" /></h2>
+          {d.profile.paragraphs.map((_, i) => <p key={i}><Editable path={`profile.paragraphs.${i}`} /></p>)}
         </section>
 
         <section>
-          <h2><span className="d1-bullet"></span>{d.labels.education}</h2>
+          <h2><span className="d1-bullet"></span><Editable path="labels.education" /></h2>
           {d.education.map((e, i) => (
             <div className="d1-edu-item" key={i}>
-              <span className="d1-edu-date">{e.date}</span>
-              <span className="d1-edu-place">{e.place}</span>
-              {e.details && <> {e.details}</>}
+              <Editable as="span" className="d1-edu-date" path={`education.${i}.date`} />
+              {' '}
+              <Editable as="span" className="d1-edu-place" path={`education.${i}.place`} />
+              {' '}
+              <Editable path={`education.${i}.details`} />
               {e.bullets.length > 0 && (
                 <ul className="d1-bullet-list">
-                  {e.bullets.map(b => <li key={b}>{b}</li>)}
+                  {e.bullets.map((_, bi) => <li key={bi}><Editable path={`education.${i}.bullets.${bi}`} /></li>)}
                 </ul>
               )}
             </div>
@@ -71,31 +74,31 @@ export default function Design1Classic({ theme = 'navy' }: { theme?: ClassicThem
         </section>
 
         <section>
-          <h2><span className="d1-bullet"></span>{d.labels.workExperience}</h2>
+          <h2><span className="d1-bullet"></span><Editable path="labels.workExperience" /></h2>
           <ul className="d1-bullet-list">
-            {d.workExperience.map(w => <li key={w}>{w}</li>)}
+            {d.workExperience.map((_, i) => <li key={i}><Editable path={`workExperience.${i}`} /></li>)}
           </ul>
         </section>
 
         <section>
-          <h2><span className="d1-bullet"></span>{d.labels.militaryService}</h2>
+          <h2><span className="d1-bullet"></span><Editable path="labels.militaryService" /></h2>
           {d.military.map((j, i) => (
             <div className="d1-job" key={i}>
               <div className="d1-job-head">
-                <span className="d1-job-title">{j.title}</span>
-                <span className="d1-job-date">{j.date}</span>
+                <Editable as="span" className="d1-job-title" path={`military.${i}.title`} />
+                <Editable as="span" className="d1-job-date" path={`military.${i}.date`} />
               </div>
               <ul className="d1-bullet-list">
-                {j.bullets.map(b => <li key={b}>{b}</li>)}
+                {j.bullets.map((_, bi) => <li key={bi}><Editable path={`military.${i}.bullets.${bi}`} /></li>)}
               </ul>
             </div>
           ))}
         </section>
 
         <section>
-          <h2><span className="d1-bullet"></span>{d.labels.volunteering}</h2>
+          <h2><span className="d1-bullet"></span><Editable path="labels.volunteering" /></h2>
           <ul className="d1-bullet-list">
-            {d.volunteering.map(v => <li key={v}>{v}</li>)}
+            {d.volunteering.map((_, i) => <li key={i}><Editable path={`volunteering.${i}`} /></li>)}
           </ul>
         </section>
       </main>
