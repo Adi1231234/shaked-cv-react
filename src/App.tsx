@@ -177,6 +177,17 @@ ${buildColorOverride(current.key, currentColors)}
     selectDesign(designs[next].key);
   };
 
+  const printPdf = () => {
+    const data = lang === 'he' ? cvDataHe : cvData;
+    const fileName = lang === 'he'
+      ? `${data.firstName} ${data.lastName} - קורות חיים`
+      : `${data.firstName} ${data.lastName} - CV`;
+    const previous = document.title;
+    document.title = fileName;
+    window.print();
+    setTimeout(() => { document.title = previous; }, 500);
+  };
+
   useLayoutEffect(() => {
     const recalc = () => {
       const stage = stageRef.current;
@@ -248,7 +259,7 @@ ${buildColorOverride(current.key, currentColors)}
           <span className="studio-progress" aria-live="polite">
             {String(currentIndex + 1).padStart(2, '0')} / {String(designs.length).padStart(2, '0')}
           </span>
-          <button className="studio-print" type="button" onClick={() => window.print()}>
+          <button className="studio-print" type="button" onClick={printPdf}>
             {lang === 'he' ? 'הדפסה / PDF' : 'Print PDF'}
           </button>
           <button
@@ -340,7 +351,7 @@ ${buildColorOverride(current.key, currentColors)}
               <button className="mobile-designs-quick" type="button" onClick={() => setMenuOpen(true)}>
                 {lang === 'he' ? 'עיצובים' : 'Designs'}
               </button>
-              <button className="control-print" type="button" onClick={() => window.print()}>
+              <button className="control-print" type="button" onClick={printPdf}>
                 {lang === 'he' ? 'הדפסה' : 'Print PDF'}
               </button>
             </div>

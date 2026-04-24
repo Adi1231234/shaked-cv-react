@@ -853,12 +853,33 @@
     margin: 0;
   }
 
+  html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #ffffff !important;
+    width: 20cm !important;
+    height: 30cm !important;
+    overflow: visible !important;
+  }
+
+  /* Preserve exact colors and backgrounds (sidebars, accents, etc.) */
+  *, *::before, *::after {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+
   .studio-topbar,
   .design-drawer,
   .drawer-backdrop,
   .preview-commandbar,
   .canvas-topline,
-  .skip-link {
+  .skip-link,
+  .studio-sidebar,
+  .theme-customizer,
+  .mobile-controls,
+  .studio-print,
+  .control-print {
     display: none !important;
   }
 
@@ -873,13 +894,16 @@
     border: 0 !important;
     background: #ffffff !important;
     box-shadow: none !important;
+    overflow: visible !important;
   }
 
   .cv-stage {
     display: block !important;
     min-height: auto !important;
     padding: 0 !important;
+    margin: 0 !important;
     overflow: visible !important;
+    background: #ffffff !important;
   }
 
   .cv-frame-shell {
@@ -887,12 +911,23 @@
     height: 30cm !important;
     overflow: visible !important;
     box-shadow: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
 
   .cv-frame {
     width: 20cm !important;
     height: 30cm !important;
     transform: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+  }
+
+  /* Neutralize shadows on page roots so print matches preview */
+  .d1-page, .d1e-page, .d1b-page, .d1s-page,
+  .d2-page, .d3-page, .d4-page, .d5-page, .d6-page {
+    box-shadow: none !important;
   }
 }
 
