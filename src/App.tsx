@@ -575,8 +575,15 @@ ${buildColorOverride(current.key, currentColors)}
               <span>A4 (21cm x 29.7cm)</span>
             </div>
             <div className="cv-stage" ref={stageRef}>
-              <div className="cv-frame-shell" style={{ width: 794 * scale, height: 1123 * scale }}>
-                <div className="cv-frame" style={{ transform: `scale(${scale})` }}>
+              <div
+                className="cv-frame-shell"
+                style={{
+                  width: 794 * scale,
+                  height: 1123 * scale,
+                  '--preview-scale': scale,
+                } as CSSProperties}
+              >
+                <div className="cv-frame">
                   <CvContext.Provider value={cvValue}>
                     {current.render()}
                   </CvContext.Provider>

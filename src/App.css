@@ -717,6 +717,7 @@
 }
 
 .cv-frame-shell {
+  --preview-scale: 1;
   flex: 0 0 auto;
   position: relative;
   overflow: hidden;
@@ -732,6 +733,7 @@
   position: absolute;
   top: 0;
   left: 0;
+  transform: scale(var(--preview-scale));
   transform-origin: top left;
   transition: transform 0.2s ease;
 }
@@ -975,6 +977,8 @@
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
     color-adjust: exact !important;
+    animation: none !important;
+    transition: none !important;
   }
 
   .studio-topbar,
@@ -1031,6 +1035,7 @@
   }
 
   .cv-frame-shell {
+    --preview-scale: 1 !important;
     flex: 0 0 auto !important;
     position: relative !important;
     width: 210mm !important;
@@ -1061,6 +1066,7 @@
     min-height: 297mm !important;
     max-height: 297mm !important;
     transform: none !important;
+    transition: none !important;
     margin: 0 !important;
     padding: 0 !important;
     box-shadow: none !important;
