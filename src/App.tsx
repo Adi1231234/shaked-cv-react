@@ -226,7 +226,10 @@ function App() {
   const current = designs.find(d => d.key === active) ?? designs[0];
   const currentIndex = designs.findIndex(d => d.key === current.key);
   const currentSlots = DESIGN_COLOR_SLOTS[current.key] ?? [];
-  const currentColors: ColorMap = { ...getDefaults(current.key), ...(colorOverrides[current.key] ?? {}) };
+  const currentColors: ColorMap = useMemo(
+    () => ({ ...getDefaults(current.key), ...(colorOverrides[current.key] ?? {}) }),
+    [current.key, colorOverrides],
+  );
 
   const updateColor = (slotKey: string, value: string) => {
     setColorOverrides(prev => ({
@@ -303,6 +306,16 @@ ${buildColorOverride(current.key, currentColors)}
       ? 'android'
       : 'default';
   }, []);
+
+  useEffect(() => {
+    const pageBg = currentColors.pageBg ?? '#ffffff';
+    const leftEdgeBg = current.key === 'classic-navy'
+      ? currentColors.sidebarBg ?? pageBg
+      : pageBg;
+
+    document.documentElement.style.setProperty('--android-print-page-bg', pageBg);
+    document.documentElement.style.setProperty('--android-print-left-edge-bg', leftEdgeBg);
+  }, [current.key, currentColors]);
 
   useEffect(() => {
     if (!menuOpen) return;

@@ -1091,6 +1091,33 @@
     --android-print-bottom-bleed: 4mm;
     --android-print-side-bleed: 3mm;
     --android-print-side-scale: 1.03;
+    --android-print-edge-width: 24mm;
+    background:
+      linear-gradient(
+        to right,
+        var(--android-print-left-edge-bg, var(--android-print-page-bg, #ffffff)) 0,
+        var(--android-print-left-edge-bg, var(--android-print-page-bg, #ffffff)) var(--android-print-edge-width),
+        var(--android-print-page-bg, #ffffff) var(--android-print-edge-width),
+        var(--android-print-page-bg, #ffffff) 100%
+      ) !important;
+  }
+
+  html[data-print-device="android"] body,
+  html[data-print-device="android"] #root,
+  html[data-print-device="android"] .studio-shell,
+  html[data-print-device="android"] .studio-layout,
+  html[data-print-device="android"] .workbench,
+  html[data-print-device="android"] .canvas-area,
+  html[data-print-device="android"] .cv-stage,
+  html[data-print-device="android"] .cv-frame-shell {
+    background:
+      linear-gradient(
+        to right,
+        var(--android-print-left-edge-bg, var(--android-print-page-bg, #ffffff)) 0,
+        var(--android-print-left-edge-bg, var(--android-print-page-bg, #ffffff)) var(--android-print-edge-width),
+        var(--android-print-page-bg, #ffffff) var(--android-print-edge-width),
+        var(--android-print-page-bg, #ffffff) 100%
+      ) !important;
   }
 
   html[data-print-device="android"] .cv-frame {
