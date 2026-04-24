@@ -1086,6 +1086,25 @@
     page-break-after: avoid !important;
     page-break-inside: avoid !important;
   }
+
+  html[data-print-device="android"] {
+    --android-print-bottom-bleed: 4mm;
+  }
+
+  html[data-print-device="android"] .cv-frame,
+  html[data-print-device="android"] .d1-page,
+  html[data-print-device="android"] .d1e-page,
+  html[data-print-device="android"] .d1b-page,
+  html[data-print-device="android"] .d1s-page,
+  html[data-print-device="android"] .d2-page,
+  html[data-print-device="android"] .d3-page,
+  html[data-print-device="android"] .d4-page,
+  html[data-print-device="android"] .d5-page,
+  html[data-print-device="android"] .d6-page {
+    height: calc(297mm + var(--android-print-bottom-bleed)) !important;
+    min-height: calc(297mm + var(--android-print-bottom-bleed)) !important;
+    max-height: none !important;
+  }
 }
 
 /* ============ Theme Customizer ============ */

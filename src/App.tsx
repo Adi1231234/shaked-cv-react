@@ -299,6 +299,12 @@ ${buildColorOverride(current.key, currentColors)}
   }, [active, menuOpen]);
 
   useEffect(() => {
+    document.documentElement.dataset.printDevice = /Android/i.test(navigator.userAgent)
+      ? 'android'
+      : 'default';
+  }, []);
+
+  useEffect(() => {
     if (!menuOpen) return;
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
