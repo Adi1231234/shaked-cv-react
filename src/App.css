@@ -204,13 +204,17 @@
   transform: translateY(-1px);
 }
 
-.edit-actions {
+.edit-actions,
+.control-edit-actions {
   display: inline-flex;
   gap: 6px;
 }
 .studio-edit,
 .studio-save,
-.studio-reset {
+.studio-reset,
+.control-edit,
+.control-save,
+.control-reset {
   border: 0;
   border-radius: 999px;
   cursor: pointer;
@@ -222,30 +226,60 @@
   min-height: 42px;
   transition: transform 0.16s ease, box-shadow 0.16s ease, background 0.16s ease;
 }
-.studio-edit {
+.studio-edit,
+.control-edit {
   background: color-mix(in srgb, var(--ink) 8%, transparent);
   color: var(--ink);
   border: 1px solid color-mix(in srgb, var(--ink) 22%, transparent);
 }
-.studio-edit:hover {
+.studio-edit:hover,
+.control-edit:hover {
   background: color-mix(in srgb, var(--ink) 14%, transparent);
 }
-.studio-save {
+.studio-save,
+.control-save {
   background: #2f7a4a;
   color: #ffffff;
 }
-.studio-save:hover {
+.studio-save:hover,
+.control-save:hover {
   background: #266138;
   box-shadow: 0 10px 22px rgba(47, 122, 74, 0.26);
   transform: translateY(-1px);
 }
-.studio-reset {
+.studio-reset,
+.control-reset {
   background: transparent;
   color: #9b4d4d;
   border: 1px solid color-mix(in srgb, #9b4d4d 36%, transparent);
 }
-.studio-reset:hover {
+.studio-reset:hover,
+.control-reset:hover {
   background: color-mix(in srgb, #9b4d4d 10%, transparent);
+}
+
+/* Mobile-only control bar buttons hidden on desktop */
+.control-edit-actions {
+  display: none;
+}
+
+@media (max-width: 920px) {
+  .edit-actions { display: none; }
+  .control-edit-actions { display: inline-flex; }
+  .control-edit,
+  .control-save,
+  .control-reset {
+    padding: 0 12px;
+    font-size: 7.8pt;
+    letter-spacing: 0.8px;
+  }
+}
+
+/* Bigger tap targets on mobile */
+@media (max-width: 920px) {
+  .cv-editable {
+    min-height: 1.4em;
+  }
 }
 
 /* Inline editable text indicator */

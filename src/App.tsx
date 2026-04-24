@@ -455,6 +455,21 @@ ${buildColorOverride(current.key, currentColors)}
               <button className="mobile-designs-quick" type="button" onClick={() => setMenuOpen(true)}>
                 {lang === 'he' ? 'עיצובים' : 'Designs'}
               </button>
+              <div className="control-edit-actions">
+                {!editing && (
+                  <button className="control-edit" type="button" onClick={() => setEditing(true)}>
+                    {lang === 'he' ? 'עריכה' : 'Edit'}
+                  </button>
+                )}
+                {editing && (
+                  <button className="control-save" type="button" onClick={handleSave}>
+                    {lang === 'he' ? 'שמירה' : 'Save'}
+                  </button>
+                )}
+                <button className="control-reset" type="button" onClick={handleReset}>
+                  {lang === 'he' ? 'איפוס' : 'Reset'}
+                </button>
+              </div>
               <button className="control-print" type="button" onClick={printPdf}>
                 {lang === 'he' ? 'הדפסה' : 'Print PDF'}
               </button>
