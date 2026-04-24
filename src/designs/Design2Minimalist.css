@@ -134,3 +134,9 @@
   color: #333;
   font-weight: 300;
 }
+
+/* RTL / Hebrew tightening */
+.d2-page[dir="rtl"] .d2-section { margin-bottom: 0.18cm; }
+.d2-page[dir="rtl"] .d2-row { margin-bottom: 0.12cm; }
+.d2-page[dir="rtl"] .d2-row-body ul li { font-size: 8.4pt; line-height: 1.4; }
+.d2-page[dir="rtl"] .d2-section p { font-size: 8.5pt; line-height: 1.4; }

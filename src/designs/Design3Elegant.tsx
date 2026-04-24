@@ -1,10 +1,11 @@
-import { cvData } from '../cvData';
+import { useCv, useLang } from '../CvContext';
 import './Design3Elegant.css';
 
 export default function Design3Elegant() {
-  const d = cvData;
+  const d = useCv();
+  const lang = useLang();
   return (
-    <div className="d3-page">
+    <div className="d3-page" dir={lang === 'he' ? 'rtl' : 'ltr'}>
       <header className="d3-header">
         <div className="d3-ornament">❦</div>
         <h1>{d.firstName} {d.lastName}</h1>
@@ -18,12 +19,12 @@ export default function Design3Elegant() {
       </header>
 
       <section className="d3-section">
-        <h2>Personal Profile</h2>
+        <h2>{d.labels.profile}</h2>
         {d.profile.paragraphs.map((p, i) => <p key={i}>{p}</p>)}
       </section>
 
       <section className="d3-section">
-        <h2>Education</h2>
+        <h2>{d.labels.education}</h2>
         {d.education.map((e, i) => (
           <div className="d3-item" key={i}>
             <div className="d3-item-head">
@@ -40,7 +41,12 @@ export default function Design3Elegant() {
       </section>
 
       <section className="d3-section">
-        <h2>Military Service</h2>
+        <h2>{d.labels.workExperience}</h2>
+        <ul className="d3-list">{d.workExperience.map(w => <li key={w}>{w}</li>)}</ul>
+      </section>
+
+      <section className="d3-section">
+        <h2>{d.labels.militaryService}</h2>
         {d.military.map((j, i) => (
           <div className="d3-item" key={i}>
             <div className="d3-item-head">
@@ -56,24 +62,19 @@ export default function Design3Elegant() {
 
       <div className="d3-grid">
         <section className="d3-section">
-          <h2>Strengths</h2>
+          <h2>{d.labels.strengths}</h2>
           <ul className="d3-list">{d.strengths.map(s => <li key={s}>{s}</li>)}</ul>
         </section>
         <section className="d3-section">
-          <h2>Languages</h2>
+          <h2>{d.labels.languages}</h2>
           <ul className="d3-list">{d.languages.map(l => <li key={l}>{l}</li>)}</ul>
-          <h2 className="d3-sub">Future Plants</h2>
+          <h2 className="d3-sub">{d.labels.futurePlans}</h2>
           <ul className="d3-list">{d.futurePlants.map(p => <li key={p}>{p}</li>)}</ul>
         </section>
       </div>
 
       <section className="d3-section">
-        <h2>Work Experience</h2>
-        <ul className="d3-list">{d.workExperience.map(w => <li key={w}>{w}</li>)}</ul>
-      </section>
-
-      <section className="d3-section">
-        <h2>Volunteering</h2>
+        <h2>{d.labels.volunteering}</h2>
         <ul className="d3-list">{d.volunteering.map(v => <li key={v}>{v}</li>)}</ul>
       </section>
     </div>

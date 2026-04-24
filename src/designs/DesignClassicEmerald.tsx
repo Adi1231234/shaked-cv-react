@@ -1,12 +1,13 @@
-import { cvData } from '../cvData';
+import { useCv, useLang } from '../CvContext';
 import { IconCalendar, IconMail, IconPhone, IconPin, IconUser } from './Icons';
 import './DesignClassicEmerald.css';
 
 export default function DesignClassicEmerald() {
-  const d = cvData;
+  const d = useCv();
+  const lang = useLang();
 
   return (
-    <div className="d1e-page">
+    <div className="d1e-page" dir={lang === 'he' ? 'rtl' : 'ltr'}>
       <header className="d1e-header">
         <div className="d1e-seal">SA</div>
         <div className="d1e-title">
@@ -25,12 +26,12 @@ export default function DesignClassicEmerald() {
       <div className="d1e-layout">
         <main className="d1e-main">
           <section className="d1e-profile">
-            <h2>Personal Profile</h2>
+            <h2>{d.labels.profile}</h2>
             {d.profile.paragraphs.map((p, i) => <p key={i}>{p}</p>)}
           </section>
 
           <section>
-            <h2>Education</h2>
+            <h2>{d.labels.education}</h2>
             <div className="d1e-edu-list">
               {d.education.map((e, i) => (
                 <div className="d1e-edu" key={i}>
@@ -45,7 +46,12 @@ export default function DesignClassicEmerald() {
           </section>
 
           <section>
-            <h2>Military Service</h2>
+            <h2>{d.labels.workExperience}</h2>
+            <ul className="d1e-work-list">{d.workExperience.map(w => <li key={w}>{w}</li>)}</ul>
+          </section>
+
+          <section>
+            <h2>{d.labels.militaryService}</h2>
             <div className="d1e-timeline">
               {d.military.map((j, i) => (
                 <article className="d1e-item" key={i}>
@@ -62,23 +68,19 @@ export default function DesignClassicEmerald() {
 
         <aside className="d1e-rail">
           <section>
-            <h2>Strengths</h2>
+            <h2>{d.labels.strengths}</h2>
             <ul>{d.strengths.map(s => <li key={s}>{s}</li>)}</ul>
           </section>
           <section>
-            <h2>Languages</h2>
+            <h2>{d.labels.languages}</h2>
             <ul>{d.languages.map(l => <li key={l}>{l}</li>)}</ul>
           </section>
           <section>
-            <h2>Future Plants</h2>
+            <h2>{d.labels.futurePlans}</h2>
             <ul>{d.futurePlants.map(p => <li key={p}>{p}</li>)}</ul>
           </section>
           <section>
-            <h2>Work Experience</h2>
-            <ul>{d.workExperience.map(w => <li key={w}>{w}</li>)}</ul>
-          </section>
-          <section>
-            <h2>Volunteering</h2>
+            <h2>{d.labels.volunteering}</h2>
             <ul>{d.volunteering.map(v => <li key={v}>{v}</li>)}</ul>
           </section>
         </aside>

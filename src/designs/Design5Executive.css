@@ -4,13 +4,14 @@
   background: #ffffff;
   font-family: 'Inter', sans-serif;
   color: #1a1a1a;
-  font-size: 9.1pt;
-  line-height: 1.62;
+  font-size: 8.7pt;
+  line-height: 1.45;
   overflow: hidden;
   -webkit-font-smoothing: antialiased;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
 }
-.d5-page * { box-sizing: border-box; margin: 0; padding: 0; }
+.d5-page, .d5-page * { box-sizing: border-box; }
+.d5-page * { margin: 0; padding: 0; }
 
 .d5-topbar {
   height: 5px;
@@ -18,31 +19,31 @@
 }
 
 .d5-header {
-  padding: 0.72cm 0.9cm 0.34cm 0.9cm;
+  padding: 0.5cm 0.85cm 0.25cm 0.85cm;
   background: #ffffff;
 }
 .d5-header h1 {
   font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 22pt;
+  font-size: 20pt;
   font-weight: 500;
   color: #1a1a1a;
   letter-spacing: 1px;
   line-height: 1;
-  margin-bottom: 5px;
+  margin-bottom: 4px;
 }
 .d5-role {
-  font-size: 8.5pt;
-  letter-spacing: 2.6px;
+  font-size: 8.2pt;
+  letter-spacing: 2.4px;
   text-transform: uppercase;
   color: #8b2635;
   font-weight: 600;
-  margin-bottom: 0.18cm;
+  margin-bottom: 0.12cm;
 }
 .d5-divider {
-  width: 36px;
+  width: 32px;
   height: 2px;
   background: #c49a6c;
-  margin-bottom: 0.18cm;
+  margin-bottom: 0.12cm;
 }
 .d5-contact {
   display: grid;
@@ -66,14 +67,14 @@
 }
 
 .d5-body {
-  padding: 0.24cm 0.9cm 0.85cm 0.9cm;
+  padding: 0.2cm 0.85cm 0.7cm 0.85cm;
 }
 
 .d5-section {
-  margin-bottom: 0.32cm;
+  margin-bottom: 0.12cm;
   display: grid;
-  grid-template-columns: 2.45cm 1fr;
-  gap: 0.4cm;
+  grid-template-columns: 2.3cm 1fr;
+  gap: 0.3cm;
   align-items: start;
 }
 .d5-section h2 {
@@ -111,8 +112,8 @@
 .d5-entry {
   display: grid;
   grid-template-columns: 2cm 1fr;
-  gap: 12px;
-  margin-bottom: 0.23cm;
+  gap: 10px;
+  margin-bottom: 0.05cm;
   align-items: baseline;
 }
 .d5-entry-date {
@@ -212,3 +213,9 @@
   width: 5px; height: 1.5px;
   background: #c49a6c;
 }
+
+/* RTL / Hebrew tightening */
+.d5-page[dir="rtl"] .d5-section { margin-bottom: 0.1cm; }
+.d5-page[dir="rtl"] .d5-entry { margin-bottom: 0.04cm; }
+.d5-page[dir="rtl"] .d5-entry-body ul li { font-size: 8.3pt; line-height: 1.35; }
+.d5-page[dir="rtl"] .d5-content p { font-size: 8.5pt; line-height: 1.4; }

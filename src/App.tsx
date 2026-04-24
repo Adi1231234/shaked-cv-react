@@ -8,6 +8,17 @@ import Design3Elegant from './designs/Design3Elegant';
 import Design4Modern from './designs/Design4Modern';
 import Design5Executive from './designs/Design5Executive';
 import Design6Editorial from './designs/Design6Editorial';
+import { CvContext, type Lang } from './CvContext';
+import { cvData } from './cvData';
+import { cvDataHe } from './cvDataHe';
+import {
+  LATIN_FONTS,
+  HEBREW_FONTS,
+  DESIGN_COLOR_SLOTS,
+  getDefaults,
+  buildColorOverride,
+  type ColorMap,
+} from './theme';
 import './App.css';
 
 type DesignOption = {
@@ -114,10 +125,47 @@ function App() {
   const [active, setActive] = useState<string>('classic-navy');
   const [menuOpen, setMenuOpen] = useState(false);
   const [scale, setScale] = useState(getInitialScale);
+  const [lang, setLang] = useState<Lang>('en');
+  const [latinFontIdx, setLatinFontIdx] = useState(0);
+  const [hebrewFontIdx, setHebrewFontIdx] = useState(0);
+  const [colorOverrides, setColorOverrides] = useState<Record<string, ColorMap>>({});
+  const [customizerOpen, setCustomizerOpen] = useState(false);
   const stageRef = useRef<HTMLDivElement>(null);
+  const cvValue = { data: lang === 'he' ? cvDataHe : cvData, lang };
 
   const current = designs.find(d => d.key === active) ?? designs[0];
   const currentIndex = designs.findIndex(d => d.key === current.key);
+  const currentSlots = DESIGN_COLOR_SLOTS[current.key] ?? [];
+  const currentColors: ColorMap = { ...getDefaults(current.key), ...(colorOverrides[current.key] ?? {}) };
+
+  const updateColor = (slotKey: string, value: string) => {
+    setColorOverrides(prev => ({
+      ...prev,
+      [current.key]: {
+        ...(prev[current.key] ?? {}),
+        [slotKey]: value,
+      },
+    }));
+  };
+
+  const resetColors = () => {
+    setColorOverrides(prev => {
+      const next = { ...prev };
+      delete next[current.key];
+      return next;
+    });
+  };
+
+  const latinFont = LATIN_FONTS[latinFontIdx];
+  const hebrewFont = HEBREW_FONTS[hebrewFontIdx];
+  const fontStack = `${latinFont.stack}, ${hebrewFont.stack}, sans-serif`;
+
+  const themeStyle = `
+.cv-frame, .cv-frame * {
+  font-family: ${fontStack} !important;
+}
+${buildColorOverride(current.key, currentColors)}
+`;
 
   const selectDesign = (key: string) => {
     setActive(key);
@@ -179,11 +227,29 @@ function App() {
         </div>
 
         <div className="studio-topbar-actions">
+          <div className="lang-toggle" role="group" aria-label="Language">
+            <button
+              type="button"
+              className={lang === 'en' ? 'active' : ''}
+              onClick={() => setLang('en')}
+              aria-pressed={lang === 'en'}
+            >
+              EN
+            </button>
+            <button
+              type="button"
+              className={lang === 'he' ? 'active' : ''}
+              onClick={() => setLang('he')}
+              aria-pressed={lang === 'he'}
+            >
+              עברית
+            </button>
+          </div>
           <span className="studio-progress" aria-live="polite">
             {String(currentIndex + 1).padStart(2, '0')} / {String(designs.length).padStart(2, '0')}
           </span>
           <button className="studio-print" type="button" onClick={() => window.print()}>
-            Print PDF
+            {lang === 'he' ? 'הדפסה / PDF' : 'Print PDF'}
           </button>
           <button
             className="studio-menu-button"
@@ -250,13 +316,6 @@ function App() {
             ))}
           </div>
 
-          <div className="drawer-current">
-            <span className="drawer-current-number">{String(currentIndex + 1).padStart(2, '0')}</span>
-            <span className="drawer-current-copy">
-              <span>{current.name}</span>
-              <span>{current.sub}</span>
-            </span>
-          </div>
         </aside>
 
         {menuOpen && (
@@ -270,15 +329,6 @@ function App() {
 
         <main className="workbench" id="cv-preview" tabIndex={-1}>
           <section className="preview-commandbar" aria-live="polite">
-            <div className="preview-title-block">
-              <p className="section-kicker">Preview</p>
-              <h1>{current.name}</h1>
-              <div className="preview-tags" aria-label="Selected design details">
-                <span>{current.family}</span>
-                <span>{current.sub}</span>
-              </div>
-            </div>
-
             <div className="preview-controls" aria-label="Design navigation">
               <button type="button" className="control-button" onClick={() => selectByOffset(-1)} aria-label="Previous design">
                 <span aria-hidden="true">&lt;</span>
@@ -288,13 +338,106 @@ function App() {
                 <span aria-hidden="true">&gt;</span>
               </button>
               <button className="mobile-designs-quick" type="button" onClick={() => setMenuOpen(true)}>
-                Designs
+                {lang === 'he' ? 'עיצובים' : 'Designs'}
               </button>
               <button className="control-print" type="button" onClick={() => window.print()}>
-                Print PDF
+                {lang === 'he' ? 'הדפסה' : 'Print PDF'}
               </button>
             </div>
           </section>
+
+          <section
+            className={`theme-customizer ${customizerOpen ? 'open' : ''} ${lang === 'he' ? 'rtl' : 'ltr'}`}
+            dir={lang === 'he' ? 'rtl' : 'ltr'}
+            aria-label={lang === 'he' ? 'התאמה אישית' : 'Theme customizer'}
+          >
+            <button
+              type="button"
+              className="theme-customizer-toggle"
+              onClick={() => setCustomizerOpen(o => !o)}
+              aria-expanded={customizerOpen}
+            >
+              <span className="theme-icon" aria-hidden="true">✦</span>
+              <span>{lang === 'he' ? 'התאמה אישית' : 'Customize'}</span>
+              <span className="theme-chevron" aria-hidden="true">{customizerOpen ? '▾' : '▸'}</span>
+            </button>
+
+            <div className="theme-panel">
+              <div className="theme-field">
+                <label htmlFor="font-latin">
+                  {lang === 'he' ? 'פונט אנגלית' : 'English font'}
+                </label>
+                <select
+                  id="font-latin"
+                  className="theme-select"
+                  value={latinFontIdx}
+                  onChange={e => setLatinFontIdx(Number(e.target.value))}
+                  style={{ fontFamily: latinFont.stack }}
+                >
+                  {LATIN_FONTS.map((f, i) => (
+                    <option key={f.name} value={i} style={{ fontFamily: f.stack }}>
+                      {f.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {lang === 'he' && (
+                <div className="theme-field">
+                  <label htmlFor="font-hebrew">פונט עברית</label>
+                  <select
+                    id="font-hebrew"
+                    className="theme-select"
+                    value={hebrewFontIdx}
+                    onChange={e => setHebrewFontIdx(Number(e.target.value))}
+                    style={{ fontFamily: hebrewFont.stack }}
+                  >
+                    {HEBREW_FONTS.map((f, i) => (
+                      <option key={f.name} value={i} style={{ fontFamily: f.stack }}>
+                        {f.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
+
+              {currentSlots.map(slot => {
+                const label = lang === 'he' ? slot.labelHe : slot.label;
+                return (
+                  <div className="theme-field theme-color-field" key={slot.key}>
+                    <label htmlFor={`color-${slot.key}`}>{label}</label>
+                    <div className="theme-color-row">
+                      <input
+                        id={`color-${slot.key}`}
+                        type="color"
+                        className="theme-color"
+                        value={currentColors[slot.key]}
+                        onChange={e => updateColor(slot.key, e.target.value)}
+                      />
+                      <input
+                        type="text"
+                        className="theme-color-hex"
+                        value={currentColors[slot.key]}
+                        onChange={e => updateColor(slot.key, e.target.value)}
+                        spellCheck={false}
+                        aria-label={`${label} hex`}
+                      />
+                    </div>
+                  </div>
+                );
+              })}
+
+              <button
+                type="button"
+                className="theme-reset"
+                onClick={resetColors}
+              >
+                {lang === 'he' ? 'איפוס' : 'Reset'}
+              </button>
+            </div>
+          </section>
+
+          <style>{themeStyle}</style>
 
           <section className="canvas-area" aria-label="CV preview canvas">
             <div className="canvas-topline">
@@ -304,7 +447,9 @@ function App() {
             <div className="cv-stage" ref={stageRef}>
               <div className="cv-frame-shell" style={{ width: 756 * scale, height: 1134 * scale }}>
                 <div className="cv-frame" style={{ transform: `scale(${scale})` }}>
-                  {current.render()}
+                  <CvContext.Provider value={cvValue}>
+                    {current.render()}
+                  </CvContext.Provider>
                 </div>
               </div>
             </div>

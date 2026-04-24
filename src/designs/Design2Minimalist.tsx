@@ -1,10 +1,11 @@
-import { cvData } from '../cvData';
+import { useCv, useLang } from '../CvContext';
 import './Design2Minimalist.css';
 
 export default function Design2Minimalist() {
-  const d = cvData;
+  const d = useCv();
+  const lang = useLang();
   return (
-    <div className="d2-page">
+    <div className="d2-page" dir={lang === 'he' ? 'rtl' : 'ltr'}>
       <header className="d2-header">
         <h1>{d.firstName} {d.lastName}</h1>
         <div className="d2-role">{d.role}</div>
@@ -22,12 +23,12 @@ export default function Design2Minimalist() {
       </header>
 
       <section className="d2-section">
-        <h2>Personal Profile</h2>
+        <h2>{d.labels.profile}</h2>
         {d.profile.paragraphs.map((p, i) => <p key={i}>{p}</p>)}
       </section>
 
       <section className="d2-section">
-        <h2>Education</h2>
+        <h2>{d.labels.education}</h2>
         {d.education.map((e, i) => (
           <div className="d2-row" key={i}>
             <div className="d2-row-date">{e.date}</div>
@@ -42,7 +43,12 @@ export default function Design2Minimalist() {
       </section>
 
       <section className="d2-section">
-        <h2>Military Service</h2>
+        <h2>{d.labels.workExperience}</h2>
+        <ul className="d2-plain">{d.workExperience.map(w => <li key={w}>{w}</li>)}</ul>
+      </section>
+
+      <section className="d2-section">
+        <h2>{d.labels.militaryService}</h2>
         {d.military.map((j, i) => (
           <div className="d2-row" key={i}>
             <div className="d2-row-date">{j.date}</div>
@@ -56,24 +62,19 @@ export default function Design2Minimalist() {
 
       <section className="d2-section d2-two-col">
         <div>
-          <h2>Strengths</h2>
+          <h2>{d.labels.strengths}</h2>
           <ul className="d2-plain">{d.strengths.map(s => <li key={s}>{s}</li>)}</ul>
         </div>
         <div>
-          <h2>Languages</h2>
+          <h2>{d.labels.languages}</h2>
           <ul className="d2-plain">{d.languages.map(l => <li key={l}>{l}</li>)}</ul>
-          <h2 className="d2-h2-spaced">Future Plants</h2>
+          <h2 className="d2-h2-spaced">{d.labels.futurePlans}</h2>
           <ul className="d2-plain">{d.futurePlants.map(p => <li key={p}>{p}</li>)}</ul>
         </div>
       </section>
 
       <section className="d2-section">
-        <h2>Work Experience</h2>
-        <ul className="d2-plain">{d.workExperience.map(w => <li key={w}>{w}</li>)}</ul>
-      </section>
-
-      <section className="d2-section">
-        <h2>Volunteering</h2>
+        <h2>{d.labels.volunteering}</h2>
         <ul className="d2-plain">{d.volunteering.map(v => <li key={v}>{v}</li>)}</ul>
       </section>
     </div>

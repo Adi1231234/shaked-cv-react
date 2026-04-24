@@ -75,7 +75,7 @@
   min-height: 24.55cm;
 }
 .d1e-main section {
-  margin-bottom: 0.48cm;
+  margin-bottom: 0.3cm;
 }
 .d1e-main section:last-child {
   margin-bottom: 0;
@@ -109,7 +109,7 @@
   display: grid;
   grid-template-columns: 2.15cm 1fr;
   gap: 0.32cm;
-  margin-bottom: 0.3cm;
+  margin-bottom: 0.18cm;
 }
 .d1e-date {
   color: #8a6f2e;
@@ -179,3 +179,10 @@
   color: #40564f;
   margin-bottom: 0.06cm;
 }
+
+/* RTL / Hebrew tightening */
+.d1e-page[dir="rtl"] .d1e-item,
+.d1e-page[dir="rtl"] .d1e-edu { margin-bottom: 0.12cm; }
+.d1e-page[dir="rtl"] .d1e-main section { margin-bottom: 0.2cm; }
+.d1e-page[dir="rtl"] .d1e-item ul li { font-size: 8pt; line-height: 1.35; }
+.d1e-page[dir="rtl"] .d1e-profile p { font-size: 8.5pt; line-height: 1.45; }

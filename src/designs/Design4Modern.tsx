@@ -1,10 +1,11 @@
-import { cvData } from '../cvData';
+import { useCv, useLang } from '../CvContext';
 import './Design4Modern.css';
 
 export default function Design4Modern() {
-  const d = cvData;
+  const d = useCv();
+  const lang = useLang();
   return (
-    <div className="d4-page">
+    <div className="d4-page" dir={lang === 'he' ? 'rtl' : 'ltr'}>
       <header className="d4-hero">
         <h1>{d.firstName} {d.lastName}</h1>
         <div className="d4-role">{d.role}</div>
@@ -18,23 +19,23 @@ export default function Design4Modern() {
       </header>
 
       <section className="d4-card d4-profile">
-        <h2>About Me</h2>
+        <h2>{d.labels.aboutMe}</h2>
         {d.profile.paragraphs.map((p, i) => <p key={i}>{p}</p>)}
       </section>
 
       <div className="d4-grid">
         <section className="d4-card">
-          <h2>Strengths</h2>
+          <h2>{d.labels.strengths}</h2>
           <ul className="d4-chips">
             {d.strengths.map(s => <li key={s}>{s}</li>)}
           </ul>
         </section>
         <section className="d4-card">
-          <h2>Languages</h2>
+          <h2>{d.labels.languages}</h2>
           <ul className="d4-chips">
             {d.languages.map(l => <li key={l}>{l}</li>)}
           </ul>
-          <h2 className="d4-h2-gap">Future Plants</h2>
+          <h2 className="d4-h2-gap">{d.labels.futurePlans}</h2>
           <ul className="d4-plain">
             {d.futurePlants.map(p => <li key={p}>{p}</li>)}
           </ul>
@@ -42,7 +43,7 @@ export default function Design4Modern() {
       </div>
 
       <section className="d4-card">
-        <h2>Education</h2>
+        <h2>{d.labels.education}</h2>
         <div className="d4-timeline">
           {d.education.map((e, i) => (
             <div className="d4-tl-item" key={i}>
@@ -58,7 +59,14 @@ export default function Design4Modern() {
       </section>
 
       <section className="d4-card">
-        <h2>Military Service</h2>
+        <h2>{d.labels.workExperience}</h2>
+        <ul className="d4-chips">
+          {d.workExperience.map(w => <li key={w}>{w}</li>)}
+        </ul>
+      </section>
+
+      <section className="d4-card">
+        <h2>{d.labels.militaryService}</h2>
         <div className="d4-timeline">
           {d.military.map((j, i) => (
             <div className="d4-tl-item" key={i}>
@@ -74,14 +82,7 @@ export default function Design4Modern() {
       </section>
 
       <section className="d4-card">
-        <h2>Work Experience</h2>
-        <ul className="d4-chips">
-          {d.workExperience.map(w => <li key={w}>{w}</li>)}
-        </ul>
-      </section>
-
-      <section className="d4-card">
-        <h2>Volunteering</h2>
+        <h2>{d.labels.volunteering}</h2>
         <ul className="d4-chips">
           {d.volunteering.map(v => <li key={v}>{v}</li>)}
         </ul>

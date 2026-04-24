@@ -1,13 +1,14 @@
-import { cvData } from '../cvData';
+import { useCv, useLang } from '../CvContext';
 import { IconPhone, IconMail, IconPin, IconUser, IconCalendar } from './Icons';
 import './Design1Classic.css';
 
 export type ClassicTheme = 'navy' | 'emerald' | 'burgundy' | 'slate';
 
 export default function Design1Classic({ theme = 'navy' }: { theme?: ClassicTheme }) {
-  const d = cvData;
+  const d = useCv();
+  const lang = useLang();
   return (
-    <div className={`d1-page d1-theme-${theme}`}>
+    <div className={`d1-page d1-theme-${theme}`} dir={lang === 'he' ? 'rtl' : 'ltr'}>
       <aside className="d1-sidebar">
         <div className="d1-name-block">
           <div className="d1-name">{d.firstName} {d.lastName}</div>
@@ -15,7 +16,7 @@ export default function Design1Classic({ theme = 'navy' }: { theme?: ClassicThem
         </div>
 
         <section>
-          <h2>Contact</h2>
+          <h2>{d.labels.contact}</h2>
           <div className="d1-contact-list">
             <div className="d1-contact-row"><span className="d1-ico"><IconPhone /></span><span>{d.contact.phone}</span></div>
             <div className="d1-contact-row"><span className="d1-ico"><IconMail /></span><span>{d.contact.email}</span></div>
@@ -26,21 +27,21 @@ export default function Design1Classic({ theme = 'navy' }: { theme?: ClassicThem
         </section>
 
         <section>
-          <h2>Languages</h2>
+          <h2>{d.labels.languages}</h2>
           <ul className="d1-sidebar-list d1-lang-list">
             {d.languages.map(l => <li key={l}>{l}</li>)}
           </ul>
         </section>
 
         <section>
-          <h2>Strengths</h2>
+          <h2>{d.labels.strengths}</h2>
           <ul className="d1-sidebar-list">
             {d.strengths.map(s => <li key={s}>{s}</li>)}
           </ul>
         </section>
 
         <section>
-          <h2>Future Plants</h2>
+          <h2>{d.labels.futurePlans}</h2>
           <ul className="d1-sidebar-list">
             {d.futurePlants.map(p => <li key={p}>{p}</li>)}
           </ul>
@@ -49,12 +50,12 @@ export default function Design1Classic({ theme = 'navy' }: { theme?: ClassicThem
 
       <main className="d1-main">
         <section className="d1-profile">
-          <h2><span className="d1-bullet"></span>Personal Profile</h2>
+          <h2><span className="d1-bullet"></span>{d.labels.profile}</h2>
           {d.profile.paragraphs.map((p, i) => <p key={i}>{p}</p>)}
         </section>
 
         <section>
-          <h2><span className="d1-bullet"></span>Education</h2>
+          <h2><span className="d1-bullet"></span>{d.labels.education}</h2>
           {d.education.map((e, i) => (
             <div className="d1-edu-item" key={i}>
               <span className="d1-edu-date">{e.date}</span>
@@ -70,7 +71,14 @@ export default function Design1Classic({ theme = 'navy' }: { theme?: ClassicThem
         </section>
 
         <section>
-          <h2><span className="d1-bullet"></span>Military Service</h2>
+          <h2><span className="d1-bullet"></span>{d.labels.workExperience}</h2>
+          <ul className="d1-bullet-list">
+            {d.workExperience.map(w => <li key={w}>{w}</li>)}
+          </ul>
+        </section>
+
+        <section>
+          <h2><span className="d1-bullet"></span>{d.labels.militaryService}</h2>
           {d.military.map((j, i) => (
             <div className="d1-job" key={i}>
               <div className="d1-job-head">
@@ -85,14 +93,7 @@ export default function Design1Classic({ theme = 'navy' }: { theme?: ClassicThem
         </section>
 
         <section>
-          <h2><span className="d1-bullet"></span>Work Experience</h2>
-          <ul className="d1-bullet-list">
-            {d.workExperience.map(w => <li key={w}>{w}</li>)}
-          </ul>
-        </section>
-
-        <section>
-          <h2><span className="d1-bullet"></span>Volunteering</h2>
+          <h2><span className="d1-bullet"></span>{d.labels.volunteering}</h2>
           <ul className="d1-bullet-list">
             {d.volunteering.map(v => <li key={v}>{v}</li>)}
           </ul>
