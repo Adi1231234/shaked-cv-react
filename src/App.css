@@ -971,6 +971,8 @@
     min-height: 0 !important;
     max-height: 297mm !important;
     overflow: hidden !important;
+    border-radius: 0 !important;
+    clip-path: none !important;
   }
 
   *, *::before, *::after {
@@ -1009,9 +1011,11 @@
     padding: 0 !important;
     margin: 0 !important;
     border: 0 !important;
+    border-radius: 0 !important;
     background: #ffffff !important;
     box-shadow: none !important;
     overflow: hidden !important;
+    clip-path: none !important;
     break-inside: avoid !important;
     page-break-inside: avoid !important;
   }
@@ -1029,7 +1033,9 @@
     padding: 0 !important;
     margin: 0 !important;
     overflow: hidden !important;
+    border-radius: 0 !important;
     background: #ffffff !important;
+    clip-path: none !important;
     break-inside: avoid !important;
     page-break-inside: avoid !important;
   }
@@ -1046,8 +1052,10 @@
     max-height: 297mm !important;
     overflow: hidden !important;
     box-shadow: none !important;
+    border-radius: 0 !important;
     margin: 0 !important;
     padding: 0 !important;
+    clip-path: none !important;
     break-before: avoid !important;
     break-after: avoid !important;
     break-inside: avoid !important;
@@ -1071,6 +1079,8 @@
     padding: 0 !important;
     box-shadow: none !important;
     overflow: hidden !important;
+    border-radius: 0 !important;
+    clip-path: none !important;
   }
 
   .d1-page, .d1e-page, .d1b-page, .d1s-page,
@@ -1081,6 +1091,8 @@
     max-height: 297mm !important;
     overflow: hidden !important;
     box-shadow: none !important;
+    border-radius: 0 !important;
+    clip-path: none !important;
     break-after: avoid !important;
     break-inside: avoid !important;
     page-break-after: avoid !important;
