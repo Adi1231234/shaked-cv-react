@@ -839,7 +839,8 @@
 
 @media (max-width: 560px) {
   .studio-brand {
-    padding-right: 52px;
+    padding-right: 150px;
+    gap: 10px;
   }
 
   .studio-brand-mark {
@@ -850,8 +851,8 @@
   }
 
   .studio-brand-title {
-    font-size: 18pt;
-    max-width: min(168px, 47vw);
+    font-size: 17pt;
+    max-width: min(150px, calc(100vw - 246px));
   }
 
   .studio-brand-subtitle,
@@ -864,6 +865,29 @@
     top: 50%;
     right: 14px;
     transform: translateY(-50%);
+    gap: 8px;
+  }
+
+  .lang-toggle {
+    width: 88px;
+    height: 42px;
+    flex: 0 0 88px;
+    padding: 3px;
+    gap: 2px;
+  }
+
+  .lang-toggle button {
+    flex: 1 1 0;
+    min-width: 0;
+    height: 34px;
+    padding: 0;
+    display: grid;
+    place-items: center;
+    font-size: 7.8pt;
+    font-weight: 900;
+    letter-spacing: 0;
+    line-height: 1;
+    white-space: nowrap;
   }
 
   .studio-menu-button {
