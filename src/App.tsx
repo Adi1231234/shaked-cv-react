@@ -118,7 +118,7 @@ const designs: DesignOption[] = [
 const getInitialScale = () => {
   if (typeof window === 'undefined') return 1;
   const chromeWidth = window.innerWidth > 920 ? 360 : 48;
-  return Math.min(1, Math.max(0.34, (window.innerWidth - chromeWidth) / 756));
+  return Math.min(1, Math.max(0.34, (window.innerWidth - chromeWidth) / 794));
 };
 
 function App() {
@@ -193,7 +193,7 @@ ${buildColorOverride(current.key, currentColors)}
       const stage = stageRef.current;
       if (!stage) return;
       const available = Math.max(0, stage.clientWidth - 48);
-      const cvWidth = 756; // 20cm at 96dpi
+      const cvWidth = 794; // 21cm (A4 width) at 96dpi
       setScale(Math.min(1, available / cvWidth));
     };
 
@@ -453,10 +453,10 @@ ${buildColorOverride(current.key, currentColors)}
           <section className="canvas-area" aria-label="CV preview canvas">
             <div className="canvas-topline">
               <span>{current.name}</span>
-              <span>20cm x 30cm</span>
+              <span>A4 (21cm x 29.7cm)</span>
             </div>
             <div className="cv-stage" ref={stageRef}>
-              <div className="cv-frame-shell" style={{ width: 756 * scale, height: 1134 * scale }}>
+              <div className="cv-frame-shell" style={{ width: 794 * scale, height: 1123 * scale }}>
                 <div className="cv-frame" style={{ transform: `scale(${scale})` }}>
                   <CvContext.Provider value={cvValue}>
                     {current.render()}

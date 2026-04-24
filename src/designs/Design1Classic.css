@@ -8,11 +8,11 @@
   --ink-soft: #4a5568;
   --divider: #e2e8f0;
 
-  width: 20cm;
-  height: 30cm;
+  width: 21cm;
+  height: 29.7cm;
   background: var(--main-bg);
   display: grid;
-  grid-template-columns: 6.45cm 13.55cm;
+  grid-template-columns: 6.45cm 1fr;
   box-shadow: 0 10px 40px rgba(26, 35, 50, 0.12), 0 2px 8px rgba(26, 35, 50, 0.06);
   overflow: hidden;
   color: var(--ink);

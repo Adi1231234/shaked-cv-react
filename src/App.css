@@ -624,8 +624,8 @@
 }
 
 .cv-frame {
-  width: 756px;
-  height: 1134px;
+  width: 794px;
+  height: 1123px;
   position: absolute;
   top: 0;
   left: 0;
@@ -849,7 +849,7 @@
 
 @media print {
   @page {
-    size: 20cm 30cm;
+    size: A4;
     margin: 0;
   }
 
@@ -857,8 +857,8 @@
     margin: 0 !important;
     padding: 0 !important;
     background: #ffffff !important;
-    width: 20cm !important;
-    height: 30cm !important;
+    width: 21cm !important;
+    height: 29.7cm !important;
     overflow: visible !important;
   }
 
@@ -907,8 +907,8 @@
   }
 
   .cv-frame-shell {
-    width: 20cm !important;
-    height: 30cm !important;
+    width: 21cm !important;
+    height: 29.7cm !important;
     overflow: visible !important;
     box-shadow: none !important;
     margin: 0 !important;
@@ -916,8 +916,8 @@
   }
 
   .cv-frame {
-    width: 20cm !important;
-    height: 30cm !important;
+    width: 21cm !important;
+    height: 29.7cm !important;
     transform: none !important;
     margin: 0 !important;
     padding: 0 !important;
