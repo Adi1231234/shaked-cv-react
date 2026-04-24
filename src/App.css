@@ -952,20 +952,25 @@
 
 @media print {
   @page {
-    size: A4;
+    size: 210mm 297mm;
     margin: 0;
   }
 
-  html, body {
+  html,
+  body,
+  #root {
     margin: 0 !important;
     padding: 0 !important;
     background: #ffffff !important;
-    width: 21cm !important;
-    height: 29.7cm !important;
-    overflow: visible !important;
+    width: 210mm !important;
+    min-width: 210mm !important;
+    max-width: 210mm !important;
+    height: 297mm !important;
+    min-height: 0 !important;
+    max-height: 297mm !important;
+    overflow: hidden !important;
   }
 
-  /* Preserve exact colors and backgrounds (sidebars, accents, etc.) */
   *, *::before, *::after {
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
@@ -991,46 +996,89 @@
   .workbench,
   .canvas-area {
     display: block !important;
-    min-height: auto !important;
+    width: 210mm !important;
+    min-width: 210mm !important;
+    max-width: 210mm !important;
+    height: 297mm !important;
+    min-height: 0 !important;
+    max-height: 297mm !important;
     padding: 0 !important;
     margin: 0 !important;
     border: 0 !important;
     background: #ffffff !important;
     box-shadow: none !important;
-    overflow: visible !important;
+    overflow: hidden !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
   }
 
   .cv-stage {
-    display: block !important;
-    min-height: auto !important;
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: center !important;
+    width: 210mm !important;
+    min-width: 210mm !important;
+    max-width: 210mm !important;
+    height: 297mm !important;
+    min-height: 0 !important;
+    max-height: 297mm !important;
     padding: 0 !important;
     margin: 0 !important;
-    overflow: visible !important;
+    overflow: hidden !important;
     background: #ffffff !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
   }
 
   .cv-frame-shell {
-    width: 21cm !important;
-    height: 29.7cm !important;
-    overflow: visible !important;
+    flex: 0 0 auto !important;
+    position: relative !important;
+    width: 210mm !important;
+    min-width: 210mm !important;
+    max-width: 210mm !important;
+    height: 297mm !important;
+    min-height: 297mm !important;
+    max-height: 297mm !important;
+    overflow: hidden !important;
     box-shadow: none !important;
     margin: 0 !important;
     padding: 0 !important;
+    break-before: avoid !important;
+    break-after: avoid !important;
+    break-inside: avoid !important;
+    page-break-before: avoid !important;
+    page-break-after: avoid !important;
+    page-break-inside: avoid !important;
   }
 
   .cv-frame {
-    width: 21cm !important;
-    height: 29.7cm !important;
+    position: absolute !important;
+    inset: 0 auto auto 0 !important;
+    width: 210mm !important;
+    min-width: 210mm !important;
+    max-width: 210mm !important;
+    height: 297mm !important;
+    min-height: 297mm !important;
+    max-height: 297mm !important;
     transform: none !important;
     margin: 0 !important;
     padding: 0 !important;
     box-shadow: none !important;
+    overflow: hidden !important;
   }
 
-  /* Neutralize shadows on page roots so print matches preview */
   .d1-page, .d1e-page, .d1b-page, .d1s-page,
   .d2-page, .d3-page, .d4-page, .d5-page, .d6-page {
+    width: 210mm !important;
+    height: 297mm !important;
+    min-height: 297mm !important;
+    max-height: 297mm !important;
+    overflow: hidden !important;
     box-shadow: none !important;
+    break-after: avoid !important;
+    break-inside: avoid !important;
+    page-break-after: avoid !important;
+    page-break-inside: avoid !important;
   }
 }
 

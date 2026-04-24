@@ -35,7 +35,7 @@ export function Editable({ path, as = 'span', className, style }: Props) {
     return <Tag className={className} style={style}>{value}</Tag>;
   }
 
-  const display = value || ' ';
+  const display = value || '\u00a0';
   return (
     <Tag
       key={value}
@@ -44,7 +44,7 @@ export function Editable({ path, as = 'span', className, style }: Props) {
       contentEditable
       suppressContentEditableWarning
       onBlur={(e) => {
-        const next = (e.currentTarget as HTMLElement).innerText.replace(/ /g, ' ').trim();
+        const next = (e.currentTarget as HTMLElement).innerText.replace(/\u00a0/g, ' ').trim();
         if (next !== value) setOverride(path, next);
       }}
       dangerouslySetInnerHTML={{ __html: escapeHtml(display) }}
