@@ -1089,6 +1089,14 @@
 
   html[data-print-device="android"] {
     --android-print-bottom-bleed: 4mm;
+    --android-print-side-bleed: 3mm;
+    --android-print-side-scale: 1.03;
+  }
+
+  html[data-print-device="android"] .cv-frame {
+    left: calc(-1 * var(--android-print-side-bleed)) !important;
+    transform: scaleX(var(--android-print-side-scale)) !important;
+    transform-origin: top left !important;
   }
 
   html[data-print-device="android"] .cv-frame,
